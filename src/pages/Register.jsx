@@ -24,7 +24,6 @@ const Register = () => {
     // Don't forget to handle errors, both for yourself (dev) and for the client (via a Bootstrap Alert)
     // Redirect to Login on success
     try {
-      setError(null); // reset error state
       const response = await fetch("https://offers-api.digistos.com/api/auth/register", {
         method: "POST",
         headers: {
@@ -32,10 +31,14 @@ const Register = () => {
         },
         body: JSON.stringify(formData),
       });
+      
       if (!response.ok) {
-        throw new Error(response.statusText);
+        const data = response.json();
+        throw new Error(data.message || "Une erreur s'est produite lors de l'inscription.");
       }
-      console.log("User registered successfully:", await response.json());
+
+      const data = await response.json();
+      console.log("User registered successfully:", data);
       navigate("/connexion");
     } catch (error) {
       console.error("Error during signup:", error);
