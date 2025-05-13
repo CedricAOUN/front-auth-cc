@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Form, Button, Container, Card, Row, Col, Alert } from "react-bootstrap";
+import { useNavigate } from "react-router";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -47,6 +49,7 @@ const LoginPage = () => {
 
       const data = await response.json();
       console.log("User logged in successfully:", data);
+      navigate("/pro-offers");
     } catch (error) {
       console.error("Error during login:", error);
     }
