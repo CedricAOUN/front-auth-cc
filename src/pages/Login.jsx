@@ -49,7 +49,7 @@ const LoginPage = () => {
 
       const data = await response.json();
       console.log("User logged in successfully:", data);
-      navigate("/pro-offers");
+      navigate("/offres/professionnelles");
     } catch (error) {
       console.error("Error during login:", error);
     }
