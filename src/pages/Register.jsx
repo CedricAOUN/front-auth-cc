@@ -28,13 +28,14 @@ const Register = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         body: JSON.stringify(formData),
       });
       
       if (!response.ok) {
-        const data = response.json();
-        throw new Error(data.message || "Une erreur s'est produite lors de l'inscription.");
+        const data = await response.json();
+        throw new Error(data.message);
       }
 
       const data = await response.json();
