@@ -43,6 +43,10 @@ const LoginPage = () => {
 
       const data = await response.json();
       console.log("User logged in successfully:", data);
+      localStorage.setItem("auth", JSON.stringify({
+        token: data.access_token,
+        expiresAt: new Date(Date.now() + data.expires_in * 1000).toISOString() // calculate expiration date
+      }));
       navigate("/offres/professionnelles");
     } catch (error) {
       if(error.status === 401) {
