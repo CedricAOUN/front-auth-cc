@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Form, Button, Container, Card, Row, Col, Alert } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { loginSuccess } from "../store/authSlice";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -33,16 +36,19 @@ const LoginPage = () => {
       },
       body: JSON.stringify(formData),
       });
-      
+
+      const data = await response.json();
+
       if (!response.ok) {
-        const data = await response.json();
         const err = new Error(data.message || "Une erreur est survenue lors de la connexion.");
         err.status = response.status;
         throw err;
       }
 
-      const data = await response.json();
-      console.log("User logged in successfully:", data);
+      dispatch(loginSuccess({ 
+        token: data.access_token, 
+        expiresAt: new Date(Date.now() + data.expires_in * 1000).toISOString() 
+      }));
       navigate("/offres/professionnelles");
     } catch (error) {
       if(error.status === 401) {
