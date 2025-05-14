@@ -24,7 +24,6 @@ const LoginPage = () => {
     //   - Show an error if credentials are invalid
     //   - Show a generic error for all other cases
     // On success, redirect to the Pro Offers page
-
     try {
       const response = await fetch("https://offers-api.digistos.com/api/auth/login", {
       method: "POST",
@@ -37,19 +36,21 @@ const LoginPage = () => {
       
       if (!response.ok) {
         const data = await response.json();
-        if(response.status === 401) {
-          setError("Identifiants invalides. Veuillez réessayer.");
-        } else {
-          setError("Une erreur s'est produite. Veuillez réessayer.");
-        }
-        throw new Error(data.message, response.status);
+        const err = new Error(data.message || "Une erreur est survenue lors de la connexion.");
+        err.status = response.status;
+        throw err;
       }
 
       const data = await response.json();
       console.log("User logged in successfully:", data);
       navigate("/offres/professionnelles");
     } catch (error) {
-      console.error("Error during login:", error);
+      if(error.status === 401) {
+        setError("Identifiants invalides. Veuillez réessayer.");
+      } else {
+        setError("Une erreur est survenue. Veuillez réessayer plus tard.");
+      }
+      console.error("Error during login:", error.status, error.message);
     }
     console.log("Login submitted:", formData);
   };
