@@ -1,22 +1,11 @@
 import { Nav, Navbar, Container } from 'react-bootstrap';
-import { NavLink, useLocation } from 'react-router';
+import { NavLink } from 'react-router';
 import '../assets/styles/Header.css';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../store/authSlice';
+import { useSelector } from 'react-redux';
 
 function Header() {
-  const location = useLocation();
-  const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const isValidToken = auth.token && new Date(auth.expiresAt) > new Date();
-  const token = isValidToken ? auth.token : null;
-
-  useEffect(() => {
-    if(!isValidToken) {
-      dispatch(logout());
-    }
-  }, [location, isValidToken, dispatch]);
 
   return (
     <Navbar bg='light' data-bs-theme='light'>
@@ -28,7 +17,7 @@ function Header() {
           <Nav.Link as={NavLink} to='/offres/publiques'>
             Offres Publiques
           </Nav.Link>
-          {token ? (
+          {isValidToken ? (
             <>
               <Nav.Link as={NavLink} to='/offres/professionnelles'>
                 Offres Professionnelles

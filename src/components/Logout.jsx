@@ -27,14 +27,13 @@ const Logout = () => {
           err.status = response.status;
           throw err;
         }
-
-        // (2) Suppression du token côté frontend
-        dispatch(logout());
-
-        // (3) Redirection vers la page de login
-        navigate('/connexion');
       } catch (error) {
         console.error(error);
+      } finally {
+        // (2) Suppression du token côté frontend
+        dispatch(logout());
+        // (3) Redirection vers la page de login
+        navigate('/connexion');
       }
     };
     handleLogout();
