@@ -39,12 +39,10 @@ const LoginPage = () => {
         const data = await response.json();
         if(response.status === 401) {
           setError("Identifiants invalides. Veuillez réessayer.");
-          throw new Error("Invalid credentials");
         } else {
           setError("Une erreur s'est produite. Veuillez réessayer.");
-          throw new Error(data.message);
         }
-        
+        throw new Error(data.message, response.status);
       }
 
       const data = await response.json();
