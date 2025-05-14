@@ -33,15 +33,14 @@ const LoginPage = () => {
       },
       body: JSON.stringify(formData),
       });
-      
+      const data = await response.json();
+
       if (!response.ok) {
-        const data = await response.json();
         const err = new Error(data.message || "Une erreur est survenue lors de la connexion.");
         err.status = response.status;
         throw err;
       }
 
-      const data = await response.json();
       console.log("User logged in successfully:", data);
       localStorage.setItem("auth", JSON.stringify({
         token: data.access_token,

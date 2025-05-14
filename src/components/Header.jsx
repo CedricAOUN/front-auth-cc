@@ -26,25 +26,24 @@ function Header() {
           <Nav.Link as={NavLink} to="/offres/publiques">
             Offres Publiques
           </Nav.Link>
-          {token && (
-            <Nav.Link as={NavLink} to="/offres/professionnelles">
-              Offres Professionnelles
-            </Nav.Link>
-          )}
-          {!token && (
+          {token ? (
+            <>
+              <Nav.Link as={NavLink} to="/offres/professionnelles">
+                Offres Professionnelles
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/deconnexion">
+                Déconnexion
+              </Nav.Link>
+            </>
+          ) : (
+            <>
             <Nav.Link as={NavLink} to="/inscription">
               Inscription
             </Nav.Link>
-          )}
-          {!token && (
             <Nav.Link as={NavLink} to="/connexion">
               Connexion
             </Nav.Link>
-          )}
-          {token && (
-            <Nav.Link as={NavLink} to="/deconnexion">
-              Déconnexion
-            </Nav.Link>
+            </>
           )}
         </Nav>
       </Container>
