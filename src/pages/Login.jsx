@@ -26,12 +26,13 @@ const LoginPage = () => {
     // On success, redirect to the Pro Offers page
     try {
       const response = await fetch("https://offers-api.digistos.com/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify(formData),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify(formData),
+        credentials: 'include',
       });
       
       if (!response.ok) {
@@ -42,7 +43,11 @@ const LoginPage = () => {
       }
 
       const data = await response.json();
-      console.log("User logged in successfully:", data);
+
+      localStorage.setItem('auth', JSON.stringify({
+        expiresAt: new Date(Date.now() + data.expires_in * 1000).toISOString()
+      }));
+
       navigate("/offres/professionnelles");
     } catch (error) {
       if(error.status === 401) {
@@ -52,7 +57,6 @@ const LoginPage = () => {
       }
       console.error("Error during login:", error.status, error.message);
     }
-    console.log("Login submitted:", formData);
   };
 
   return (

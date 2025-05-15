@@ -15,8 +15,8 @@ const OfferProList = () => {
           {
             headers: {
               Accept: "application/json",
-              // Add Authorization token
             },
+            credentials: 'include',
           }
         );
 
