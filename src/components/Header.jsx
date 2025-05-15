@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 function Header() {
   const auth = useSelector((state) => state.auth);
+  console.log('Header auth', auth);
   const isValidToken = auth.token && new Date(auth.expiresAt) > new Date();
 
   return (

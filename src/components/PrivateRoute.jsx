@@ -5,8 +5,8 @@ import { logout } from '../store/authSlice';
 
 const PrivateRoute = () => {
   const navigate = useNavigate();
-  const token = useSelector((state) => state.auth.token);
-  const isValidToken = token && new Date(token.expiresAt) > new Date();
+  const auth = useSelector((state) => state.auth);
+  const isValidToken = auth.token && new Date(auth.expiresAt) > new Date();
   const dispatch = useDispatch();
 
   useEffect(() => {
